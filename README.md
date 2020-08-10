@@ -2,20 +2,20 @@
 PostgreSQL automatic backups to Amazon S3 bucket in Docker.
 
 ## Overview
-Automatically backup PostgreSQL database and upload directly to Amazon S3 bucket.
+Automatically backup PostgreSQL database and upload it directly to Amazon S3 bucket.
 
 #### Features:
  * Rotation logic
  * GPG encryption with provided passphrase
  * Notifications to Telegram
 
- __Keep in mind!! No local files are kept__
+ __Keep in mind!! No local backup files are kept__
 
 ## Setup
 
 1. Built container and push to your registry
 `docker build /path_to_source && docker push <host/name:tag>`
-2. Deploy on Kubernetes. A couple of variables are needed for deploy.
+2. Deploy on Kubernetes. A couple of variables are needed for deployment.
 
 Required environment variables:
 ```
@@ -36,4 +36,4 @@ KEEP_BACKUPS_IN_DAYS = Format: Integer. For automatic deletion of old backups
 
 Demo yaml is provided: _demo-k8s-deployment.yaml_
 
-Feel free to edit the script to fit your needs
+Feel free to edit the scripts to fit your needs
