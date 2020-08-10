@@ -18,7 +18,7 @@ pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST -d $POSTGRES_DB > $PATH_TO_RAW_BACKU
 
 # Encrypt the gzipped backup file
 # using GPG passphrase
-gpg --yes --batch --passphrase=$PG_BACKUP_PASSWORD -c $PATH_TO_RAW_BACKUP_FILE.gz
+gpg --yes --batch --passphrase=$POSTGRES_BACKUP_PASSPHRASE -c $PATH_TO_RAW_BACKUP_FILE.gz
 
 # Generate backup filename based
 # on the current date
@@ -27,8 +27,8 @@ BACKUP_FILE_NAME="$POSTGRES_HOST-$(date '+%Y-%m-%d_%H.%M').gpg"
 # Upload the file to S3 using
 # AWS CLI
 aws s3 cp $PATH_TO_RAW_BACKUP_FILE.gz "s3://$S3_BUCKET/${BACKUP_FILE_NAME}" && \
-curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_1 -d text="Successfull $POSTGRES_DB backup" || \
-curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_1 -d text="Backup failed for $POSTGRES_DB"
+curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Successfull $POSTGRES_DB backup" || \
+curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="Backup failed for $POSTGRES_DB"
 
 # Remove the encrypted + plaintext backup file
 rm $PATH_TO_RAW_BACKUP_FILE.gz.gpg
