@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-backup
+  labels:
+    app: db-backup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-backup
+  template:
+    metadata:
+      labels:
+        app: db-backup
+    spec:
+      containers:
+      - name: db-backup
+        image: your/image:<tag>
+        imagePullPolicy: Always
+        envFrom:
+          - secretRef:
+              name:  secrets
+      restartPolicy: Always
